@@ -1,0 +1,20 @@
+FROM python:3.10.0-alpine
+
+ENV PYTHONUNBUFFERED 1
+
+RUN apk update --no-cache && apk add --no-cache postgresql-client
+
+RUN addgroup -S d-ploy && adduser -S d-ploy -G d-ploy
+WORKDIR /home/d-ploy/dploy
+
+COPY requirements.txt .
+
+RUN apk add build-base postgresql-dev libpq --no-cache --virtual .build-deps \
+    && pip install --no-cache-dir -r requirements.txt \
+    && apk del .build-deps
+
+USER d-ploy
+
+COPY --chown=d-ploy:d-ploy . .
+
+ENTRYPOINT [ "/home/d-ploy/dploy/scripts/docker/entrypoint-prod.sh" ]

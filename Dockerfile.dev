@@ -1,0 +1,22 @@
+FROM python:3.10.0-slim
+
+ENV PYTHONUNBUFFERED 1
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+    nano \
+    vim \
+    curl \
+    postgresql-client \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN groupadd -r d-ploy && useradd --no-log-init -r -g d-ploy d-ploy
+WORKDIR /home/d-ploy/dploy
+
+COPY --chown=d-ploy:d-ploy requirements.txt .
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+USER d-ploy
+
+ENTRYPOINT [ "/home/d-ploy/dploy/scripts/docker/entrypoint-dev.sh" ]
