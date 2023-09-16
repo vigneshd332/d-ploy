@@ -17,6 +17,6 @@ COPY --chown=d-ploy:d-ploy requirements.txt .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-USER d-ploy
+# USER d-ploy
 
 ENTRYPOINT [ "/home/d-ploy/dploy/scripts/docker/entrypoint-dev.sh" ]
