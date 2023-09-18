@@ -27,7 +27,7 @@ class HTTPClient():
             method,
             url,
             params=params,
-            data=data,
+            json=data,
             headers=self.headers,
             timeout=10,
         )

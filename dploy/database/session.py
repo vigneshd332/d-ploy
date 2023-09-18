@@ -16,16 +16,11 @@ logger = logging.getLogger(__name__)
 
 
 async def get_database():
-    logger.info("Hi")
     database = SessionLocal()
-    logger.info("Hi")
     try:
         yield database
         database.commit()
-        logger.info("Hi1")
     except:
         database.rollback()
-        logger.info("Hi2")
     finally:
         database.close()
-        logger.info("Hi3")
