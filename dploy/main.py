@@ -13,7 +13,7 @@ from dploy.config import Settings
 from dploy.database.base import Base
 from dploy.database.session import SessionLocal, engine
 from dploy.dependencies import check_authentication
-from dploy.routers import audit_logs, daemons, keyring, projects,aws
+from dploy.routers import audit_logs, daemons, keyring, projects, aws, firewall, docker
 
 Base.metadata.create_all(bind=engine)
 
@@ -36,6 +36,8 @@ app.include_router(projects.router)
 app.include_router(keyring.router)
 app.include_router(audit_logs.router)
 app.include_router(aws.router)
+app.include_router(firewall.router)
+app.include_router(docker.router)
 
 
 @app.get("/")

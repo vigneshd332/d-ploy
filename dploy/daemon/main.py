@@ -4,10 +4,11 @@ import logging
 from dploy.daemon.controllers.deployments import Deployments
 from dploy.daemon.controllers.docker import Docker
 from dploy.daemon.controllers.docker_compose import DockerCompose
+from dploy.daemon.controllers.firewall import Firewall
 from dploy.utils.http_client import HTTPClient
 
 
-class Daemon(Deployments, Docker, DockerCompose):
+class Daemon(Deployments, Docker, DockerCompose, Firewall):
 
     def __init__(self, id: str, url: str, auth_key: str):
         self.id = id
@@ -32,13 +33,12 @@ class Daemon(Deployments, Docker, DockerCompose):
             'auth_key': self.auth_key
         })
         if response.status_code != 200:
-            print(response.json())
             raise HTTPException(
                 status_code=response.status_code,
                 detail='Could not register daemon - ' + response.json()['detail'])
         return response.json()
 
 
-@lru_cache()
+@lru_cache(maxsize=32)
 def get_daemon(id: str, url: str, auth_key: str):
     return Daemon(id, url, auth_key)

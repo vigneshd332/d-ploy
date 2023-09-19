@@ -30,7 +30,7 @@ class Docker:
                 detail='Could not get container details - ' + response.json()['detail'])
         return response.json()
 
-    def delete_container(self, container_id: str, force: bool, v: bool):
+    def delete_container(self, container_id: str, force: bool = False, v: bool = False):
         """
         Delete a container
         """

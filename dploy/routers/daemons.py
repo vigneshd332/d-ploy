@@ -41,7 +41,7 @@ async def register(
     """
     try:
         daemon = database.query(DaemonSchema).filter_by(
-            uuid=register_request.url).first()
+            url=register_request.url).first()
         if daemon:
             raise HTTPException(
                 status_code=400, detail='Daemon with URL already registered')
