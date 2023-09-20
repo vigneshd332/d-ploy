@@ -5,6 +5,7 @@ Entrypoint for the API.
 import json
 import sys
 from typing import Any, Generator
+import asyncio
 
 import uvicorn
 from fastapi import Depends, FastAPI
@@ -14,6 +15,7 @@ from dploy.database.base import Base
 from dploy.database.session import SessionLocal, engine
 from dploy.dependencies import check_authentication
 from dploy.routers import audit_logs, daemons, keyring, projects, aws, firewall, docker
+from dploy.utils.health_check_client import schedule_health_check
 
 Base.metadata.create_all(bind=engine)
 
@@ -45,6 +47,9 @@ async def root() -> dict[str, str]:
     """Basic route for testing"""
     return {"message": "Working!"}
 
+@app.on_event("startup")
+async def startup_event():
+    asyncio.create_task(schedule_health_check())
 
 if __name__ == "__main__":
     if len(sys.argv) == 2 and sys.argv[1] == "docs":

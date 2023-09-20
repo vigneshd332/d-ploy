@@ -23,3 +23,4 @@ starlette==0.14.2
 typing_extensions==4.7.1
 urllib3==1.26.16
 uvicorn==0.15.0
+httpx==0.25.0
