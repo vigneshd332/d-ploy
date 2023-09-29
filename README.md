@@ -21,7 +21,7 @@
 
 1. Clone the repo
 2. Run `cp .env.example .env`
-3. Run `docker-compose -f docker-compose.dev.yml up --build`
+3. Run `docker-compose up --build`
 
 #### With virtual environment
 

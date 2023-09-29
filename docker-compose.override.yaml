@@ -1,0 +1,11 @@
+services:
+  db:
+    container_name: dploy_db_dev
+    volumes:
+      - ./.pgdata_dev/db:/var/lib/postgresql/data
+  
+  api:
+    container_name: dploy_api_dev
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
